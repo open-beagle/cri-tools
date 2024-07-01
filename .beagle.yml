@@ -38,7 +38,7 @@ steps:
   - name: build
     image: registry.cn-qingdao.aliyuncs.com/wod/golang:1.22
     commands:
-      - sh src/build.sh
+      - bash src/build.sh
 
   - name: docker-amd64
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
