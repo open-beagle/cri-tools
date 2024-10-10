@@ -2,7 +2,7 @@
 set -ex
 
 name=cri-tools
-version=v1.30.0
+version=v1.31.1
 
 if [ ! -d ${BUILD_ROOT}/.tmp/${name}-${version} ]; then
   git config --global http.proxy 'socks5://www.ali.wodcloud.com:1283'

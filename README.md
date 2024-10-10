@@ -8,10 +8,22 @@
 
 ```bash
 docker run -it --rm \
--v $PWD/:/go/src/github.com/open-beagle/cri-tools \
--w /go/src/github.com/open-beagle/cri-tools \
-registry.cn-qingdao.aliyuncs.com/wod/golang:1.22 \
-bash src/build.sh
+  -v $PWD/:/go/src/github.com/open-beagle/cri-tools \
+  -w /go/src/github.com/open-beagle/cri-tools \
+  registry.cn-qingdao.aliyuncs.com/wod/golang:1.22 \
+  bash src/build.sh
+```
+
+## deploy
+
+```bash
+docker run -it --rm \
+  -v /etc/kubernetes/downloads:/etc/kubernetes/downloads \
+  registry.cn-qingdao.aliyuncs.com/wod/cri-tools:v1.31.1 \
+  cp /bin/crictl /etc/kubernetes/downloads/crictl-linux-v1.31.1 && \
+mkdir -p /opt/bin && \
+ln -s /etc/kubernetes/downloads/crictl-linux-v1.31.1 /opt/bin/crictl && \
+chmod +x /etc/kubernetes/downloads/crictl-linux-v1.31.1
 ```
 
 ## cache

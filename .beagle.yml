@@ -49,7 +49,7 @@ steps:
       dockerfile: .beagle/dockerfile
       base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3-amd64
       repo: wod/cri-tools
-      version: v1.30.0
+      version: v1.31.1
       channel: amd64
       args: "TARGETOS=linux,TARGETARCH=amd64"
       registry: registry.cn-qingdao.aliyuncs.com
@@ -67,7 +67,7 @@ steps:
       dockerfile: .beagle/dockerfile
       base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3-arm64
       repo: wod/cri-tools
-      version: v1.30.0
+      version: v1.31.1
       channel: arm64
       args: "TARGETOS=linux,TARGETARCH=arm64"
       registry: registry.cn-qingdao.aliyuncs.com
