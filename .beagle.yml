@@ -18,7 +18,7 @@ clone:
 
 steps:
   - name: s3-cache
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-s3-cache:1.0
+    image: registry-vpc-qingdao.aliyuncs.com/wod/devops-s3-cache:1.0
     settings:
       restore: true
       mount:
@@ -30,50 +30,61 @@ steps:
         from_secret: SECRET_KEY_MINIO
 
   - name: fetch
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-git:1.0
+    image: registry-vpc-qingdao.aliyuncs.com/wod/devops-git:1.0
     settings:
       proxy:
         from_secret: SOCKS5_PROXY
 
   - name: build
-    image: registry.cn-qingdao.aliyuncs.com/wod/golang:1.22
+    image: registry-vpc-qingdao.aliyuncs.com/wod/golang:1.22
     commands:
       - bash src/build.sh
 
   - name: docker-amd64
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    image: registry-vpc-qingdao.aliyuncs.com/wod/devops-docker:1.0
     volumes:
       - name: docker
         path: /var/run/docker.sock
     settings:
       dockerfile: .beagle/dockerfile
-      base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3-amd64
+      base: registry-vpc-qingdao.aliyuncs.com/wod/alpine:3-amd64
       repo: wod/cri-tools
       version: v1.31.1
       channel: amd64
       args: "TARGETOS=linux,TARGETARCH=amd64"
-      registry: registry.cn-qingdao.aliyuncs.com
+      registry: registry-vpc-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER_ALIYUN
       registry_password:
         from_secret: REGISTRY_PASSWORD_ALIYUN
 
   - name: docker-arm64
-    image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    image: registry-vpc-qingdao.aliyuncs.com/wod/devops-docker:1.0
     volumes:
       - name: docker
         path: /var/run/docker.sock
     settings:
       dockerfile: .beagle/dockerfile
-      base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3-arm64
+      base: registry-vpc-qingdao.aliyuncs.com/wod/alpine:3-arm64
       repo: wod/cri-tools
       version: v1.31.1
       channel: arm64
       args: "TARGETOS=linux,TARGETARCH=arm64"
-      registry: registry.cn-qingdao.aliyuncs.com
+      registry: registry-vpc-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER_ALIYUN
       registry_password:
+        from_secret: REGISTRY_PASSWORD_ALIYUN
+
+  - name: docker-arch
+    image: registry-vpc.cn-qingdao.aliyuncs.com/wod/devops-docker-manifest:1.0
+    settings:
+      platforms: linux/amd64,linux/arm64
+      template: registry-vpc.cn-qingdao.aliyuncs.com/wod/cri-tools:v1.31.1-ARCH
+      target: registry-vpc.cn-qingdao.aliyuncs.com/wod/cri-tools:v1.31.1
+      username:
+        from_secret: REGISTRY_USER_ALIYUN
+      password:
         from_secret: REGISTRY_PASSWORD_ALIYUN
 
 ---
