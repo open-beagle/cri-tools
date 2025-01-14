@@ -10,7 +10,8 @@
 docker run -it --rm \
   -v $PWD/:/go/src/github.com/open-beagle/cri-tools \
   -w /go/src/github.com/open-beagle/cri-tools \
-  registry.cn-qingdao.aliyuncs.com/wod/golang:1.22 \
+  -e SOCKS5_PROXY=$SOCKS5_PROXY_LOCAL \
+  registry.cn-qingdao.aliyuncs.com/wod/golang:1.23-alpine \
   bash src/build.sh
 ```
 
